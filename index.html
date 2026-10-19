@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard de avance de obra</title>
+  <link rel="stylesheet" href="styles.css?v=2">
+  <link rel="icon" href="londres.png">
+</head>
+<body>
+  <header class="top">
+    <div class="top-band">
+      <div>
+        <h1 id="titulo">Dashboard de avance de obra</h1>
+        <p id="subtitulo">Cargando datos…</p>
+      </div>
+    </div>
+    <div class="logos">
+      <img src="londres.png" alt="Constructora Londres">
+      <img src="conavicoop.png" alt="Conavicoop">
+    </div>
+  </header>
+
+  <section class="controles" aria-label="Filtros">
+    <label>Semana de control
+      <select id="selSemana"></select>
+    </label>
+    <label>Frente
+      <select id="selFrente"><option value="Todos">Todos</option></select>
+    </label>
+    <span id="origen" class="origen"></span>
+  </section>
+
+  <nav class="tabs" role="tablist">
+    <button class="tab activa" data-tab="resumen">Resumen</button>
+    <button class="tab" data-tab="decisiones">Decisiones</button>
+    <button class="tab" data-tab="partidas">Partidas</button>
+    <button class="tab" data-tab="detalle">Detalle y comparador</button>
+  </nav>
+
+  <main>
+    <div id="vacio" class="aviso" hidden>
+      Aún no hay datos publicados para esta obra.
+    </div>
+
+    <!-- RESUMEN -->
+    <section id="tab-resumen" class="panel activo">
+      <div class="kpis" id="kpis"></div>
+      <div class="lectura" id="lectura"></div>
+      <div class="grid2">
+        <div class="card"><h2>Curva S – programado vs real (acumulado) <span class="nota" id="notaCurva"></span></h2><div class="chartbox"><canvas id="chCurva"></canvas></div></div>
+        <div class="card"><h2>Avance semanal – últimas 12 semanas</h2><div class="chartbox"><canvas id="chSemanal"></canvas></div></div>
+      </div>
+      <div class="grid2">
+        <div class="card">
+          <h2>Avance por frente</h2>
+          <table class="tabla" id="tblMacro"></table>
+          <div class="chartbox chart-md"><canvas id="chFrentes"></canvas></div>
+        </div>
+        <div class="card">
+          <h2>Avance por categoría <span class="nota" id="notaCategoria"></span></h2>
+          <div class="scroll"><table class="tabla" id="tblCategorias"></table></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DECISIONES -->
+    <section id="tab-decisiones" class="panel">
+      <div class="card"><h2>1 · Mayor impacto en el atraso de la obra</h2>
+        <p class="nota">Impacto = brecha (% real − % programado) × incidencia de la partida × peso de su frente, en puntos de avance de obra.</p>
+        <div class="scroll"><table class="tabla" id="tblImpacto"></table></div></div>
+      <div class="card"><h2>2 · Partidas detenidas (3 semanas o más sin avance y bajo lo programado)</h2>
+        <div class="scroll"><table class="tabla" id="tblDetenidas"></table></div></div>
+      <div class="card"><h2>3 · Debían iniciar y no han iniciado</h2>
+        <div class="scroll"><table class="tabla" id="tblNoIniciadas"></table></div></div>
+      <div class="card"><h2>4 · Próximas a iniciar (4 semanas)</h2>
+        <p class="nota">Inicio programado en las próximas 4 semanas y sin avance real: preparar recursos y subcontratos.</p>
+        <div class="scroll"><table class="tabla" id="tblProximas"></table></div></div>
+    </section>
+
+    <!-- PARTIDAS -->
+    <section id="tab-partidas" class="panel">
+      <div class="card">
+        <div class="filtros">
+          <input id="buscar" type="search" placeholder="Buscar partida…">
+          <select id="selEstado"><option value="">Todos los estados</option></select>
+          <button id="btnCsv" class="btn sec">Descargar CSV</button>
+          <span class="nota" id="cuenta"></span>
+        </div>
+        <div class="scroll alto"><table class="tabla ordenable" id="tblPartidas"></table></div>
+      </div>
+    </section>
+
+    <!-- DETALLE -->
+    <section id="tab-detalle" class="panel">
+      <div class="card">
+        <h2>Detalle de partida</h2>
+        <select id="selPartida" class="ancho"></select>
+        <div class="kpis chicos" id="kpisPartida"></div>
+        <div class="grid2">
+          <div class="chartbox"><canvas id="chPartida"></canvas></div>
+          <div class="chartbox"><canvas id="chPartidaSem"></canvas></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Comparador de partidas (hasta 6)</h2>
+        <div class="comparador" id="comparador"></div>
+        <div class="chartbox chart-md"><canvas id="chComparar"></canvas></div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer id="pie"></footer>
+
+  <script src="chart.umd.js"></script>
+  <script src="app.js?v=3"></script>
+</body>
+</html>
